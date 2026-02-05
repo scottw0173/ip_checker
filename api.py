@@ -1,31 +1,32 @@
-import csv
-import requests
 import os
-from ip_finder import make_list_ips
+import requests
 
 API_KEY = os.getenv("ABUSEIPDB_API_KEY")
 if not API_KEY:
     raise RuntimeError("ABUSEIPDB_API_KEY is not set in your environment")
 
-def run_api(list):
+def run_api(ips):
     results = []
 
-    for ip in list:
-        params = {
-            "ipAddress": ip,
-            "maxAgeInDays": 90
-        }
+    for ip in ips:
+        params = {"ipAddress": ip, "maxAgeInDays": 90}
 
         response = requests.get(
             "https://api.abuseipdb.com/api/v2/check",
             headers={
                 "Accept": "application/json",
-                "Key": "API_KEY"
+                "Key": API_KEY
             },
             params=params,
             timeout=10
         )
 
         response.raise_for_status()
-        results.append(response.json())
-    print(results)
+        data = response.json()
+        results.append(data)
+
+        # Compact, readable per-IP output
+        d = data.get("data", {})
+        print(f"{d.get('ipAddress')}: score={d.get('abuseConfidenceScore')}, reports={d.get('totalReports')}")
+
+    return results
