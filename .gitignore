@@ -3,3 +3,5 @@ files/*
 
 results/*
 !results/.gitkeep
+
+.env

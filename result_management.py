@@ -28,12 +28,12 @@ def write_new_file(rows: list[list[str]], filename:str, type: FileType):
         with open(new_filepath, 'w', newline='',encoding='utf-8') as f:
             writer = csv.writer(f)
             writer.writerows(rows)
-    if type == FileType.TSV:
+    elif type == FileType.TSV:
         new_filepath = "./results/results_" + filename 
         with open(new_filepath, 'w', newline='', encoding='utf-8') as f:
             writer = csv.writer(f, delimiter='\t')
             writer.writerows(rows)
-    if type == FileType.XLS or FileType.XLSX:
+    elif type == FileType.XLS or type == FileType.XLSX:
         new_filepath = "./results/results_" + filename
         wb = openpyxl.Workbook()
         ws = wb.active

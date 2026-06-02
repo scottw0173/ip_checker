@@ -8,12 +8,16 @@ def main():
     filename = ask_which_file()
     filetype = file_to_file_type(filename)
     rows = open_file(filename)
+    #print(f"Rows loaded: {len(rows)}")
     key_column = identify_column(rows)
+    #print(f"Key column identified: {key_column}")
     if key_column == -1:
         print(f"Could not identify an column for IP addresses in file: {filename}")
         return
     
     global_ips = validate_ips(isolate_column(rows))
+    print(f"IPs to check: {len(global_ips)}")
+    #print(global_ips)
     results = run_api(global_ips)
     write_new_file(add_results(rows, results, key_column), filename, filetype)
     print(f"Results written to ./results/results_{filename}")
