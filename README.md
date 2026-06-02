@@ -41,6 +41,7 @@ Supported file formats: .csv, .tsv, .xls, .xlsx
 
 ## Notes
 - AbuseIPDB free tier is limited to 1,000 requests per day. The program will warn you if your file contains 500 or more unique public IPs, but it does not track your total remaining for the day
+- The program uses rows 2-6 (or rows 2 to the end for smaller documents) as a test sample. If there are duplicate IPs in these rows, the program may fail to find the column with IP addresses
 - Private, loopback, and link-local IP addresses are automatically filtered out before querying the API
 - Duplicate IPs are deduplicated before querying — each unique IP is only checked once regardless of how many times it appears in the file
 - The program automatically detects which column contains IP addresses — no configuration needed
