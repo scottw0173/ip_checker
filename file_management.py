@@ -36,7 +36,7 @@ def identify_extension(file: str) -> str:
     
 def ask_which_file() -> str:
     files = identify_files()
-   # print(files)
+    print(files)
     while True:
         file = input("Which file do you want to search? ")
         if file in files:

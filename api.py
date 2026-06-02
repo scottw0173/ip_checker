@@ -34,10 +34,10 @@ def run_api(global_ips: list[str]) -> dict[str, IPResult]:
         data = response.json()
         payload = data["data"]
         results[payload["ipAddress"]] = IPResult( #lots more data saved in 'payload' if you want to add it to the dictionary
-            score=payload["abuseConfidenceScore"],
-            reports=payload["totalReports"],
-            country=payload["countryName"],
-            isp=payload["isp"]
+            score=payload.get("abuseConfidenceScore", 0),
+            reports=payload.get("totalReports", 0),
+            country=payload.get("countryName", "Unknown"),
+            isp=payload.get("isp", "Unknown")
         )
         time.sleep(1)
 
