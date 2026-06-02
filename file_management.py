@@ -11,24 +11,25 @@ def identify_files():
         if Path(filepath).is_file():
             files.append(entry)
    # print(files)
+    valid_files = []
     for file in files:
       #  print(identify_extension(file))
-        if identify_extension(file) == "null":
-            files.remove(file)
-    print(files)
+        if identify_extension(file) != "null":
+            valid_files.append(file)
+    # print(files)
     return files
 
 def identify_extension(file):
-    file_components = file.split(".")
+    file_ext = file.rsplit(".", 1)[-1]
  #   print(file_components)
-    if file_components[1] == "xls":
-        return file_components[1]
-    elif file_components[1] == "xlsx":
-        return file_components[1]
-    elif file_components[1] == "csv":
-        return file_components[1]
-    elif file_components[1] == "tsv":
-        return file_components[1]
+    if file_ext == "xls":
+        return file_ext
+    elif file_ext == "xlsx":
+        return file_ext
+    elif file_ext == "csv":
+        return file_ext
+    elif file_ext == "tsv":
+        return file_ext
     else:
      #   print("not a tabled file")
         return "null"
