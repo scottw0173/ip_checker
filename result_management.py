@@ -1,5 +1,6 @@
 import csv, openpyxl
 from api import IPResult
+from open_file import FileType
 
 def add_results(rows : list[list[str]], results: dict[str, IPResult], key_column : int) -> list[list[str]]:
     rows[0].append("score")
@@ -21,22 +22,21 @@ def add_results(rows : list[list[str]], results: dict[str, IPResult], key_column
             rows[i].append("N/A")
     return rows
 
-def write_csv(rows: list[list[str]], filename: str):
-    new_filepath = "./results/" + filename 
-    with open(new_filepath, 'w', newline='',encoding='utf-8') as f:
-        writer = csv.writer(f)
-        writer.writerows(rows)
-
-def write_tsv(rows: list[list[str]], filename: str):
-    new_filepath = "./results/" + filename 
-    with open(new_filepath, 'w', newline='', encoding='utf-8') as f:
-        writer = csv.writer(f, delimiter='\t')
-        writer.writerows(rows)
-
-def write_xlsx(rows: list[list[str]], filename: str):
-    new_filepath = "./results/" + filename
-    wb = openpyxl.Workbook()
-    ws = wb.active
-    for row in rows:
-        ws.append(row)
-    wb.save(new_filepath)
+def write_new_file(rows: list[list[str]], filename:str, type: FileType):
+    if type == FileType.CSV:
+        new_filepath = "./results/results_" + filename 
+        with open(new_filepath, 'w', newline='',encoding='utf-8') as f:
+            writer = csv.writer(f)
+            writer.writerows(rows)
+    if type == FileType.TSV:
+        new_filepath = "./results/results_" + filename 
+        with open(new_filepath, 'w', newline='', encoding='utf-8') as f:
+            writer = csv.writer(f, delimiter='\t')
+            writer.writerows(rows)
+    if type == FileType.XLS or FileType.XLSX:
+        new_filepath = "./results/results_" + filename
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        for row in rows:
+            ws.append(row)
+        wb.save(new_filepath)
