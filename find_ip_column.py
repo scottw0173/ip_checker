@@ -18,8 +18,10 @@ def identify_column(rows: list[list[str]]) -> int:
 
 def isolate_column(rows: list[list[str]]) -> list[str]:
     column = identify_column(rows)
+    if column == -1:
+        return []
     ip_values = set()
-    for i in range(len(rows)):
+    for i in range(1, len(rows)):
         ip_values.add(rows[i][column])
     return list(ip_values)
 
@@ -27,7 +29,8 @@ def validate_ips(ip_addresses: list[str]) -> list[str]:
     global_ips = []
     for ip in ip_addresses:
         try:
-            if ip.is_global:
+            address = ipaddress.ip_address(ip)
+            if address.is_global:
                 global_ips.append(ip)
         except ValueError:
             continue

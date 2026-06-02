@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-def identify_files():
+def identify_files() -> list[str]:
     entries = os.listdir("./files")
     #print(entries)
     files = []
@@ -19,7 +19,7 @@ def identify_files():
     # print(files)
     return files
 
-def identify_extension(file):
+def identify_extension(file: str) -> str:
     file_ext = file.rsplit(".", 1)[-1]
  #   print(file_components)
     if file_ext == "xls":
@@ -34,7 +34,7 @@ def identify_extension(file):
      #   print("not a tabled file")
         return "null"
     
-def ask_which_file():
+def ask_which_file() -> str:
     files = identify_files()
    # print(files)
     while True:

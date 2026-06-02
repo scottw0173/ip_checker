@@ -27,31 +27,19 @@ def open_file(file: str) -> list[list[str]]:
             reader = csv.reader(f)
             for row in reader:
                 rows.append(row)
-    if file_type == FileType.TSV:
+    elif file_type == FileType.TSV:
         with open(file_path, mode='r',newline='', encoding='utf-8') as f:
             reader = csv.reader(f, delimiter="\t")
             for row in reader:
                 rows.append(row)
-    if file_type == FileType.XLS:
+    elif file_type == FileType.XLS:
         table = xlrd.open_workbook(file_path)
         reader = table.sheet_by_index(0)
         for row in range(reader.nrows):
-            rows.append(row)
-    if file_type == FileType.XLSX:
+            rows.append(reader.row_values(row))
+    elif file_type == FileType.XLSX:
         table = openpyxl.load_workbook(file_path)
         reader = table.active
-        for row in range(0, reader.max_row):
-            rows.append(row)
+        for row in reader.iter_rows(values_only=True):
+            rows.append(list(row))
     return rows
-
-
-
-def make_list_ips(path: str = "./test.csv") -> list[str]:
-    ips: list[str] = []
-    with open(path, newline="", encoding="utf-8") as f:
-        reader = csv.reader(f)
-        next(reader, None)  # skip header row
-        for row in reader:
-            ips.append(row[1].strip().strip('"'))
-    return ips
-
